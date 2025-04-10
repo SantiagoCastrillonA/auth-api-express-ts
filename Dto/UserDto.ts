@@ -1,5 +1,5 @@
 class User {
-    
+
     private _email: string;
     private _nombres: string;
     private _apellidos: string;
