@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 
 let profile = async (req: Request, res: Response) => {
-  try {    
+  try {
     const idUser = req.body.id;
     return res.status(200).json(
       { status: 'Get profile Ok', id: idUser }
