@@ -1,16 +1,19 @@
 import { Request, Response } from 'express';
 import ProductService from '../services/ProductService';
 import { ProductRepository } from '../repositories/product.repository';
+import { Product } from '../models/product.model'; // 
 
 export const createProduct = async (req: Request, res: Response) => {
     try {
         const { name, description, price, stock, category_id, supplier_id } = req.body;
-        
+
         if (!name || !price || !stock) {
-            return res.status(400).json({ 
-                message: 'Nombre, precio y stock son requeridos' 
+            return res.status(400).json({
+                message: 'Nombre, precio y stock son requeridos'
             });
         }
+
+        console.log("Datos recibidos:", { name, description, price, stock, category_id, supplier_id });
 
         const product = await ProductService.create({
             name,
@@ -25,31 +28,35 @@ export const createProduct = async (req: Request, res: Response) => {
             message: 'Producto creado exitosamente',
             product
         });
-    } catch (error) {
-        console.error('Error al crear producto:', error);
-        res.status(500).json({ message: 'Error al crear el producto' });
+    } catch (error: unknown) {
+        console.error('Error detallado al crear producto:', error);
+        if (error instanceof Error) {
+            res.status(500).json({ message: 'Error al crear el producto', error: error.message });
+        } else {
+            res.status(500).json({ message: 'Error al crear el producto', error: 'Error desconocido' });
+        }
     }
 };
 
 export const getAllProducts = async (_req: Request, res: Response) => {
     try {
-        const products = await ProductRepository.findAll();
+        const products = await ProductService.findAll();
         res.json({ products });
     } catch (error) {
         console.error('Error al obtener productos:', error);
-        res.status(500).json({ message: 'Error al obtener los productos' });
+        res.status(500).json({ message: 'Error al obtener productos' });
     }
 };
 
 export const getProductById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const product = await ProductRepository.findById(parseInt(id));
-        
+        const product = await ProductService.findById(parseInt(id));
+
         if (!product) {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
-        
+
         res.json({ product });
     } catch (error) {
         console.error('Error al obtener producto:', error);
@@ -61,14 +68,15 @@ export const updateProduct = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const { name, description, price, stock, category_id, supplier_id } = req.body;
-        
+
         if (!name && !price && !stock) {
-            return res.status(400).json({ 
-                message: 'Se requiere al menos un campo para actualizar' 
+            return res.status(400).json({
+                message: 'Se requiere al menos un campo para actualizar'
             });
         }
 
-        const updated = await ProductRepository.update(parseInt(id), {
+        
+        const updated = await ProductService.update(parseInt(id), {
             name, description, price, stock, category_id, supplier_id
         });
 
@@ -76,7 +84,7 @@ export const updateProduct = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
 
-        res.json({ 
+        res.json({
             message: 'Producto actualizado exitosamente',
             product: updated
         });
@@ -89,7 +97,8 @@ export const updateProduct = async (req: Request, res: Response) => {
 export const deleteProduct = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const deleted = await ProductRepository.delete(parseInt(id));
+        
+        const deleted = await ProductService.delete(parseInt(id));
 
         if (!deleted) {
             return res.status(404).json({ message: 'Producto no encontrado' });
