@@ -1,4 +1,4 @@
-import UserRepository from '../repositories/UserRepository';
+import UserRepository from '../repositories/user.repository';
 import User from '../Dto/UserDto';
 import generateHash from '../Helpers/generateHash';
 import Auth from '../Dto/AuthDto';
