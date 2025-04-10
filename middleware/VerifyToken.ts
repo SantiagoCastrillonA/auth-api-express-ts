@@ -6,35 +6,46 @@ dotenv.config();
 
 
 interface JwtPayload {
-    data: {id: number},
+    data: { id: number },
     exp: number,
     iat: number
 }
 
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
-    let authorization = req.get('Authorization');    
-    if (authorization) {
-        const token = authorization.split(' ')[1]        
-        if (!token) {
-            return res.status(401).json(
-                { status: 'you have not sent a token' }
-            );
-        };
-        try {
-            let decoded = jwt.verify(token, process.env.KEY_TOKEN as string) as JwtPayload;            
-            req.body.id = decoded.data.id;
-            next()
-        } catch (error) {
-            return res.status(403).json(
-                { status: 'Unauthorized' }
-            );
+    try {
+        // Imprime los headers para depuración
+        console.log("Headers:", req.headers);
+
+        const authHeader = req.headers['authorization'];
+        console.log("Auth Header:", authHeader);
+
+        if (!authHeader) {
+            return res.status(401).json({
+                status: 'Unauthorized',
+                message: 'No authorization header'
+            });
         }
+
+        const token = authHeader.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({
+                status: 'Unauthorized',
+                message: 'No token provided'
+            });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'clave_secreta');
+        req.user = decoded;
+        next();
+    } catch (error) {
+        console.error("Error en verificación de token:", error);
+        return res.status(401).json({
+            status: 'Unauthorized',
+            message: 'Invalid token'
+        });
     }
-    return res.status(403).json(
-        { status: "The Authorization header is required"}
-    );
-}
+};
 
 
 export default verifyToken;

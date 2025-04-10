@@ -1,4 +1,4 @@
-export interface Product {
+interface ProductDto {
     id?: number;
     name: string;
     description?: string;
@@ -6,4 +6,7 @@ export interface Product {
     stock: number;
     category_id?: number;
     supplier_id?: number;
+    created_at?: Date;
 }
+
+export default ProductDto;
