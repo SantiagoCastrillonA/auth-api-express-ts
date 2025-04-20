@@ -39,14 +39,32 @@ export const getSupplierById = async (req: Request, res: Response) => {
 
 export const updateSupplier = async (req: Request, res: Response) => {
     try {
-        const updated = await SupplierRepository.update(parseInt(req.params.id), req.body);
-        if (!updated) {
-            return res.status(404).json({ message: 'Proveedor no encontrado' });
+        const id = parseInt(req.params.id);
+        const updateData = req.body;
+
+        // Validar que haya datos para actualizar
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ 
+                message: 'No se proporcionaron datos para actualizar' 
+            });
         }
-        res.json({ message: 'Proveedor actualizado exitosamente' });
+
+        const updated = await SupplierRepository.update(id, updateData);
+        
+        if (!updated) {
+            return res.status(404).json({ 
+                message: 'Proveedor no encontrado o no hay cambios' 
+            });
+        }
+
+        res.json({ 
+            message: 'Proveedor actualizado exitosamente' 
+        });
     } catch (error) {
         console.error('Error al actualizar proveedor:', error);
-        res.status(500).json({ message: 'Error al actualizar el proveedor' });
+        res.status(500).json({ 
+            message: 'Error al actualizar el proveedor' 
+        });
     }
 };
 
