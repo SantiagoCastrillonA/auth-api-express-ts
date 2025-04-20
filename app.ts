@@ -5,6 +5,7 @@ import profileRoutes from './routes/profile';
 import registerRoutes from './routes/register';
 import productRoutes from './routes/product.routes';
 import categoryRoutes from './routes/category.routes';
+import supplierRoutes from './routes/supplier';
 
 const app = express();
 const PORT = 10101;
@@ -20,6 +21,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/register', registerRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/suppliers', supplierRoutes);
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
