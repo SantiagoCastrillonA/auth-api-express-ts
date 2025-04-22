@@ -1,6 +1,6 @@
 import db from '../config/config-db';
-import { Product } from '../models/product.model';
-import { BaseRepository } from './base.repository';
+import { Product } from '../models/product-model';
+import { BaseRepository } from './base-repository';
 
 export class ProductRepository implements BaseRepository<Product> {
     async create(product: Product): Promise<Product> {

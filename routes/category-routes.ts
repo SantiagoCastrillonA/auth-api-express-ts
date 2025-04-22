@@ -5,8 +5,8 @@ import {
     createCategory,
     updateCategory,
     deleteCategory
-} from '../controllers/category.controller';
-import { verifyToken } from '../middleware/auth.middleware';
+} from '../controllers/category-controller';
+import { verifyToken } from '../middleware/authMiddleware';
 
 const router = express.Router();
 

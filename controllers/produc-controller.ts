@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import ProductService from '../services/ProductService';
-import { ProductRepository } from '../repositories/product.repository';
-import { Product } from '../models/product.model'; // 
+import { ProductRepository } from '../repositories/product-repository';
+import { Product } from '../models/product-model'; // 
 
 export const createProduct = async (req: Request, res: Response) => {
     try {
@@ -75,7 +75,7 @@ export const updateProduct = async (req: Request, res: Response) => {
             });
         }
 
-        
+
         const updated = await ProductService.update(parseInt(id), {
             name, description, price, stock, category_id, supplier_id
         });
@@ -97,7 +97,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 export const deleteProduct = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        
+
         const deleted = await ProductService.delete(parseInt(id));
 
         if (!deleted) {

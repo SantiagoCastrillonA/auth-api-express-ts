@@ -1,5 +1,5 @@
-import { Product } from '../models/product.model';
-import { ProductRepository } from '../repositories/product.repository';
+import { Product } from '../models/product-model';
+import { ProductRepository } from '../repositories/product-repository';
 
 const productRepository = new ProductRepository();
 

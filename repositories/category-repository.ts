@@ -1,7 +1,6 @@
-// repositories/category.repository.ts
 import db from '../config/config-db';
-import { Category } from '../models/category.model';
-import { BaseRepository } from './base.repository';
+import { Category } from '../models/category-model';
+import { BaseRepository } from './base-repository';
 
 export class CategoryRepository implements BaseRepository<Category> {
     async findAll(): Promise<Category[]> {

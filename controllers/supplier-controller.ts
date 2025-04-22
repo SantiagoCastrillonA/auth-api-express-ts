@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { SupplierRepository } from '../repositories/supplier.repository';
+import { SupplierRepository } from '../repositories/supplier-repository';
 
 export const createSupplier = async (req: Request, res: Response) => {
     try {

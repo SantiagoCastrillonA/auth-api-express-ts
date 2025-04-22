@@ -3,8 +3,8 @@ import cors from 'cors';
 import authRoutes from './routes/auth';
 import profileRoutes from './routes/profile';
 import registerRoutes from './routes/register';
-import productRoutes from './routes/product.routes';
-import categoryRoutes from './routes/category.routes';
+import productRoutes from './routes/product-routes';
+import categoryRoutes from './routes/category-routes';
 import supplierRoutes from './routes/supplier';
 
 const app = express();
